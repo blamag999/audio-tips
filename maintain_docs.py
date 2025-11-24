@@ -71,4 +71,17 @@ def update_index():
 
 def slugify(heading: str) -> str:
     """
-    Tạo anchor giống
+    Tạo anchor giống GitHub:
+    - chữ thường
+    - bỏ ký tự đặc biệt
+    - khoảng trắng -> dấu '-'
+    """
+    heading = heading.strip().lower()
+    heading = re.sub(r"[^\w\s-]", "", heading)
+    heading = re.sub(r"\s+", "-", heading)
+    return heading
+
+
+def extract_headings(text: str):
+    """
+    Lấy các heading từ README (##, ###, ####.

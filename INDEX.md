@@ -14,7 +14,7 @@ Danh sách tất cả các file markdown trong repo.
 - [How Do Speaker Spikes Improve Your Sound YouTube](How-Do-Speaker-Spikes-Improve-Your-Sound-YouTube.md)
 - [Maximize The Sound From Your Center Channel Speaker 5 Tips YouTube](MAXIMIZE-the-Sound-From-Your-Center-Channel-Speaker-5-TIPS-YouTube.md)
 - [Micca Vs Sony Vs Polk Budget Center Channels Compared YouTube](Micca-vs-Sony-vs-Polk-Budget-Center-Channels-Compared-YouTube.md)
-- [Settings for LG 27UP600 Monitor](Settings for LG 27UP600 Monitor.md)
+- [Settings For Lg 27Up600 Monitor](Settings-for-LG-27UP600-Monitor.md)
 - [Sony W800C Settings](Sony_W800C_Settings.md)
 - [Speaker Placement 101 Get The Best Sound YouTube](Speaker-Placement-101-Get-the-Best-Sound-YouTube.md)
 - [Top 6 Audio Setup Mistakes And How To Fix Them Audio Advisor YouTube](Top-6-Audio-Setup-Mistakes-And-How-to-Fix-Them-Audio-Advisor-YouTube.md)

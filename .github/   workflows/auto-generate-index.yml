@@ -1,4 +1,4 @@
-name: Auto Generate Repo Index
+name: Auto Update README TOC
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  build-index:
+  update-toc:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,15 +22,15 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Run index generator
+      - name: Run TOC generator
         run: |
-          python generate_repo_index.py
+          python generate_readme_toc.py
 
       - name: Commit & push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add INDEX.md
-          git diff --staged --quiet || git commit -m "Auto update INDEX.md"
+          git add README.md
+          git diff --staged --quiet || git commit -m "Auto update README TOC"
           git push

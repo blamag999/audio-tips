@@ -1,0 +1,43 @@
+name: Auto Maintain Docs (INDEX + README TOC)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  maintain-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run docs maintainer (maintain_docs.py)
+        run: |
+          python maintain_docs.py
+
+      - name: Commit & push changes (INDEX.md + README.md)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add INDEX.md README.md
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto update INDEX.md and README TOC"
+            git push
+          fi

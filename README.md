@@ -1,24 +1,7 @@
-# Mục Lục
+# 🎧 Audio Tips Repository
 
-- [Giới thiệu](#giới-thiệu)  
-- [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)  
-- [Danh sách bài viết](#danh-sách-bài-viết)  
-  - [Audio Break-In: What It Is, Why It Matters and How To Do It (Without the Myths)](#audio-break-in-what-it-is-why-it-matters-and-how-to-do-it-without-the-myths)  
-  - [Audio Components Explained – Understand Your Hi-Fi System in Minutes](#audio-components-explained-––-understand-your-hi-fi-system-in-minutes)  
-  - [Choose The Best Height For Your Speakers](#choose-the-best-height-for-your-speakers)  
-  - [Discover the Surprising Flaw in Center-Channel Speakers](#discover-the-surprising-flaw-in-center-channel-speakers)  
-  - [Do You Really Need a Headphone Amp? Let’s Find Out.](#do-you-really-need-a-headphone-amp-lets-find-out)  
-  - [Do You Still Need a Preamp in 2025? The Answer Is YES — Here’s Why.](#do-you-still-need-a-preamp-in-2025-the-answer-is-yes-––-here’s-why)  
-  - [Get the Best out of your Home Theater in 2024, featuring the Q Acoustics 5090 Center Channel](#get-the-best-out-of-your-home-theater-in-2024-featuring-the-q-acoustics-5090-center-channel)  
-  - [How Do Speaker Spikes Improve Your Sound?](#how-do-speaker-spikes-improve-your-sound)  
-  - [MAXIMIZE the Sound From Your Center-Channel Speaker: 5 TIPS](#maximize-the-sound-from-your-center-channel-speaker-5-tips)  
-  - [Micca vs Sony vs Polk Budget Center Channels Compared](#micca-vs-sony-vs-polk-budget-center-channels-compared)  
-  - [Speaker-Placement 101: Get the Best Sound](#speaker-placement-101-get-the-best-sound)  
-  - [Top 6 Audio Setup Mistakes and How to Fix Them](#top-6-audio-setup-mistakes-and-how-to-fix-them)  
-  - [Which is Better for High-End Audio: Optical or Coaxial?](#which-is-better-for-high-end-audio-optical-or-coaxial)  
-  - [Windows 11 AVR Passthrough](#windows-11-avr-passthrough)  
-  - [Settings for LG 27UP600 Monitor](#settings-for-lg-27up600-monitor)  
-  - [Sony_W800C Settings](#sony_w800c-settings)  
-- [Các tệp cấu hình & phụ lục](#các-tệp-cấu-hình-phụ-lục)  
-- [Liên hệ & hợp tác](#liên-hệ-hợp-tác)  
-- [Giấy phép (License)](#giấy-phép-license)
+<!-- TOC-START -->
+<!-- TOC-END -->
+
+## Giới thiệu
+...

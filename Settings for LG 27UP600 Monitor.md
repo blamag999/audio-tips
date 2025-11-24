@@ -69,3 +69,92 @@ Thay vì bấm nút cứng (joystick) trên màn hình, hãy cài đặt phần 
     * Mở **MPV / Netflix** -> Màn hình tự nhảy về Profile Cinema (Độ sáng cao).
 
 > **Ghi chú:** LG 27UP600 là màn hình IPS, khi xem phim trong phòng tối hoàn toàn sẽ thấy hở sáng ở góc (IPS Glow). Để khắc phục, nên bật một đèn ngủ nhẹ phía sau màn hình (Bias Lighting) để đánh lừa thị giác, giúp màu đen trông sâu hơn.
+
+# 🖥️ Hướng Dẫn Tối Ưu Cài Đặt Màn Hình LG 27UP600
+
+Tài liệu này hướng dẫn cách cân chỉnh menu OSD (On-Screen Display) của LG 27UP600 để đạt chất lượng hiển thị tốt nhất cho từng mục đích sử dụng, tránh tình trạng sai màu hoặc mỏi mắt do cài đặt mặc định của nhà sản xuất.
+
+---
+
+## 🛑 BƯỚC 0: CHUẨN BỊ QUAN TRỌNG (Làm 1 lần duy nhất)
+
+Trước khi chỉnh nút trên màn hình, hãy thực hiện các bước sau để đảm bảo tín hiệu gốc chuẩn xác:
+
+1.  **Tắt Tiết kiệm năng lượng:**
+    * Menu: `General` → `Smart Energy Saving` → Chọn **Off**.
+    * *Lý do:* Ngăn màn hình tự động thay đổi độ sáng gây khó chịu.
+2.  **Cài đặt dải màu (Trên PC/Windows):**
+    * Mở **Nvidia Control Panel** (hoặc AMD Software).
+    * Mục `Change resolution` → Kéo xuống phần `Output dynamic range`.
+    * Chọn: **Full** (Tuyệt đối không để *Limited* để tránh màu đen bị xám).
+
+---
+
+## 1️⃣ CHẾ ĐỘ LÀM VIỆC, WEB, VĂN PHÒNG (Chuẩn sRGB)
+**Mục tiêu:** Màu sắc trung thực, dịu mắt, chữ sắc nét không bị gai.
+
+* **Picture Mode:** **Custom** (Tùy chỉnh)
+
+| Hạng mục | Cài đặt | Giải thích |
+| :--- | :--- | :--- |
+| **Brightness** | **20 - 35** | Mức sáng an toàn cho mắt khi ngồi gần. |
+| **Contrast** | **70** | Mức tiêu chuẩn (Mặc định). Không tăng cao hơn. |
+| **Sharpness** | **50** | Mức trung tính. |
+| **Super Resolution+** | **OFF (Tắt)** | **Quan trọng!** Phải tắt để chữ không bị viền trắng/gai. |
+| **Black Level** | **High** | Để hiển thị đủ dải màu đen. |
+| **DFC** | **Off** | Tắt tương phản động. |
+
+**Cài đặt nâng cao (Game/Color Adjust):**
+* **Response Time:** **Fast** (Tránh chọn *Faster* để không bị bóng ma khi cuộn web).
+* **Black Stabilizer:** **50** (Giữ nguyên).
+* **Gamma:** **Mode 2** (Tương đương Gamma 2.2 chuẩn đồ họa/web).
+* **Color Temp:** **Custom** (Red: 50 / Green: 50 / Blue: 50).
+
+---
+
+## 2️⃣ CHẾ ĐỘ XEM PHIM (SDR) & GAME OFFLINE
+**Mục tiêu:** Hình ảnh rực rỡ, độ tương phản cao, màu đen sâu hơn (Cinematic).
+
+* **Picture Mode:** **Custom** (Hoặc *Cinema*)
+
+| Hạng mục | Cài đặt | Giải thích |
+| :--- | :--- | :--- |
+| **Brightness** | **60 - 80** | Tăng sáng để hình ảnh sống động, nổi bật. |
+| **Contrast** | **70** | Giữ nguyên. |
+| **Sharpness** | **50 - 60** | Có thể tăng nhẹ nếu nguồn phim mờ (Youtube 1080p). |
+| **Super Resolution+** | **Low / Off** | Bật *Low* nếu cần tăng độ nét giả lập, *Off* nếu xem 4K. |
+
+**Cài đặt nâng cao (Quan trọng):**
+* **Gamma:** **Mode 4**
+    * *Lý do:* Mode 4 có đường cong gamma tối hơn, giúp màu đen trông sâu và đầm hơn, tạo độ nổi khối tốt cho phim ảnh.
+
+---
+
+## 3️⃣ CHẾ ĐỘ HDR (Tự động kích hoạt)
+Khi xem phim 4K HDR hoặc chơi game HDR, màn hình sẽ tự khóa cài đặt và hiện logo HDR.
+
+* **Picture Mode:** Chọn **HDR Standard** hoặc **HDR Cinema**.
+    * *Khuyên dùng:* **HDR Standard** (Cân bằng nhất).
+    * *Tránh xa:* **HDR Vivid** (Màu quá rực, bết màu, sai lệch tông da).
+* **Brightness:** Màn hình tự khóa ở **100** (Max) để đạt độ sáng đỉnh ~400 nits.
+
+---
+
+## ⚠️ Giải Mã Các Chế Độ Có Sẵn (Presets)
+
+| Chế độ | Đánh giá | Khi nào dùng? |
+| :--- | :--- | :--- |
+| **Vivid** | ❌ Tệ | Chỉ dùng trưng bày siêu thị. Quá rực, sai màu, hại mắt. |
+| **HDR Effect** | ❌ Tệ | Giả lập HDR làm da người bị đỏ, tương phản gắt. Không nên dùng. |
+| **Reader** | ✅ Tốt (Đêm) | Lọc ánh sáng xanh (ám vàng). Chỉ dùng đọc văn bản ban đêm. |
+| **sRGB** | ⚠️ Khá | Giới hạn màu chuẩn in ấn. Nhược điểm là thường bị khóa độ sáng. |
+
+---
+
+## 💡 Mẹo Chuyên Nghiệp (Pro Tip)
+
+Thay vì bấm nút cứng (Joystick) sau màn hình, hãy cài phần mềm **LG OnScreen Control** trên Windows.
+
+* **Tự động hóa (My Application Presets):**
+    * Gán `Excel / Chrome` ➔ Tự chuyển về profile **Custom (Làm việc)**.
+    * Gán `MPV Player / Netflix` ➔ Tự chuyển về profile **Cinema**.

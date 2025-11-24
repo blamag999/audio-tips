@@ -1,51 +1,89 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import re
 
-README = Path("README.md")
-INDEX = Path("INDEX.md")
-
-START = "<!-- INDEX-START -->"
-END = "<!-- INDEX-END -->"
+README_PATH = Path("README.md")
+INDEX_PATH = Path("INDEX.md")
 
 
-def main():
-    if not README.exists():
-        raise SystemExit("❌ README.md not found")
+def parse_index_items():
+    """Parse các dòng dạng - [Title](file.md) từ INDEX.md."""
+    items = []
+    if INDEX_PATH.exists():
+        text = INDEX_PATH.read_text(encoding="utf-8")
+        pattern = re.compile(r"^\s*-\s*\[(?P<title>.+?)\]\((?P<link>.+?)\)\s*$")
+        for line in text.splitlines():
+            m = pattern.match(line)
+            if m:
+                items.append(
+                    {
+                        "title": m.group("title").strip(),
+                        "link": m.group("link").strip(),
+                    }
+                )
+    return items
 
-    if not INDEX.exists():
-        raise SystemExit("❌ INDEX.md not found")
 
-    readme_text = README.read_text(encoding="utf-8")
-    index_text = INDEX.read_text(encoding="utf-8")
-
-    if START not in readme_text or END not in readme_text:
-        raise SystemExit("❌ Marker not found in README.md")
-
-    start_pos = readme_text.index(START) + len(START)
-    end_pos = readme_text.index(END)
-
-    before = readme_text[:start_pos]
-    after = readme_text[end_pos:]
-
-    # Optional: chỉ lấy phần sau tiêu đề của INDEX.md
-    index_lines = index_text.splitlines()
-    filtered = []
-    started = False
-
-    for line in index_lines:
-        if line.strip().startswith("---"):
-            started = True
+def scan_fallback_items():
+    """Nếu INDEX.md không parse được thì quét thẳng *.md trong root (trừ README/INDEX)."""
+    items = []
+    root = Path(".").resolve()
+    for path in sorted(root.glob("*.md")):
+        if path.name in ("README.md", "INDEX.md"):
             continue
-        if started:
-            filtered.append(line)
-
-    index_block = "\n\n" + "\n".join(filtered).strip() + "\n\n"
-
-    new_readme = before + index_block + END + after
-    README.write_text(new_readme, encoding="utf-8")
-
-    print("✅ README.md updated from INDEX.md")
+        title = path.stem.replace("-", " ").replace("_", " ")
+        title = re.sub(r"\s+", " ", title).strip().title()
+        items.append({"title": title, "link": path.name})
+    return items
 
 
-if __name__ == "__main__":
-    main()
+def categorize_item(title, link):
+    lt = title.lower()
+    ln = link.lower()
+
+    if "youtube" in lt or "youtube" in ln or "audio-advisor" in ln:
+        return "youtube"
+    if any(word in lt for word in ["setting", "monitor", "tv", "display", "sony", "lg"]):
+        return "device"
+    if any(word in lt for word in ["windows", "avr", "passthrough"]):
+        return "system"
+    return "other"
+
+
+def build_readme_content(items):
+    youtube = []
+    device = []
+    system = []
+    other = []
+
+    for item in items:
+        cat = categorize_item(item["title"], item["link"])
+        if cat == "youtube":
+            youtube.append(item)
+        elif cat == "device":
+            device.append(item)
+        elif cat == "system":
+            system.append(item)
+        else:
+            other.append(item)
+
+    lines = []
+
+    # Tiêu đề
+    lines.append("# 🎧 Audio Tips Repository")
+    lines.append("")
+    # Badge
+    lines.append('<p align="center">')
+    lines.append('  <a href="https://github.com/blamag999/audio-tips/stargazers">')
+    lines.append('    <img src="https://img.shields.io/github/stars/blamag999/audio-tips?style=for-the-badge" alt="GitHub stars" />')
+    lines.append("  </a>")
+    lines.append('  <a href="https://github.com/blamag999/audio-tips/forks">')
+    lines.append('    <img src="https://img.shields.io/github/forks/blamag999/audio-tips?style=for-the-badge" alt="GitHub forks" />')
+    lines.append("  </a>")
+    lines.append('  <a href="https://github.com/blamag999/audio-tips/blob/main/LICENSE">')
+    lines.append('    <img src="https://img.shields.io/github/license/blamag999/audio-tips?style=for-the-badge" alt="License" />')
+    lines.append("  </a>")
+    lines.append("</p>")
+    lines.append("")
+
+    # Mô t

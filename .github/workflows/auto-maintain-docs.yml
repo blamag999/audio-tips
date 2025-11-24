@@ -1,4 +1,4 @@
-name: Auto Maintain Docs (INDEX + README TOC)
+name: Auto Maintain Docs (INDEX.md)
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -24,20 +24,20 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Run docs maintainer (maintain_docs.py)
+      - name: Run maintain_docs.py (generate INDEX.md)
         run: |
           python maintain_docs.py
 
-      - name: Commit & push changes (INDEX.md + README.md)
+      - name: Commit & push changes (INDEX.md)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add INDEX.md README.md
+          git add INDEX.md
 
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Auto update INDEX.md and README TOC"
+            git commit -m "Auto update INDEX.md"
             git push
           fi

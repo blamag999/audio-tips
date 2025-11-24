@@ -1,12 +1,6 @@
 # 🎧 Audio Tips Repository
 
-<!-- TOC-START -->
+Tổng hợp tài liệu audio.
 
-## Mục lục
-
-- [Giới thiệu](#giới-thiệu)
-
-<!-- TOC-END --><!-- TOC-END -->
-
-## Giới thiệu
-...
+<!-- INDEX-START -->
+<!-- INDEX-END -->

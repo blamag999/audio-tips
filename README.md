@@ -14,6 +14,7 @@ Tự động sinh README từ cấu trúc repo. Mỗi file bên dưới là mộ
 - [Do-You-Still-Need-a-Preamp-in-2025-The-Answer-Is-YESHeres-Why-YouTube.md](Do-You-Still-Need-a-Preamp-in-2025-The-Answer-Is-YESHeres-Why-YouTube.md)
 - [Get-the-Best-out-of-your-Home-Theater-IN-2024-featuring-the-Q-Acoustics-5090-Center-Channel-YouTube.md](Get-the-Best-out-of-your-Home-Theater-IN-2024-featuring-the-Q-Acoustics-5090-Center-Channel-YouTube.md)
 - [How-Do-Speaker-Spikes-Improve-Your-Sound-YouTube.md](How-Do-Speaker-Spikes-Improve-Your-Sound-YouTube.md)
+- [Improve-Your-Stereo-With-These-Three-EASY-Tips-YouTube.md](Improve-Your-Stereo-With-These-Three-EASY-Tips-YouTube.md)
 - [MAXIMIZE-the-Sound-From-Your-Center-Channel-Speaker-5-TIPS-YouTube.md](MAXIMIZE-the-Sound-From-Your-Center-Channel-Speaker-5-TIPS-YouTube.md)
 - [Micca-vs-Sony-vs-Polk-Budget-Center-Channels-Compared-YouTube.md](Micca-vs-Sony-vs-Polk-Budget-Center-Channels-Compared-YouTube.md)
 - [Settings-for-LG-27UP600-Monitor.md](Settings-for-LG-27UP600-Monitor.md)

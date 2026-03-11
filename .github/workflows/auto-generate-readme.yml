@@ -1,63 +1,41 @@
-import os
-import subprocess
-from datetime import datetime
+name: Auto Generate README
 
-IGNORE = {".git", ".github", "__pycache__", "README.md"}
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-def get_last_commit_date(file_path):
-    try:
-        result = subprocess.check_output(
-            ["git", "log", "-1", "--format=%ct", file_path]
-        ).decode().strip()
+permissions:
+  contents: write
 
-        if result:
-            return int(result)
-    except:
-        pass
-    return 0
+jobs:
+  generate-readme:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-files = []
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
-for root, dirs, filenames in os.walk("."):
-    dirs[:] = [d for d in dirs if d not in IGNORE]
+      - name: Run generate_readme.py
+        run: python generate_readme.py
 
-    for f in filenames:
-        path = os.path.join(root, f)
+      - name: Commit & push README.md
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
 
-        if f in IGNORE:
-            continue
-
-        if path.startswith("./"):
-            path = path[2:]
-
-        timestamp = get_last_commit_date(path)
-
-        files.append({
-            "path": path,
-            "time": timestamp
-        })
-
-
-# sort by newest first
-files.sort(key=lambda x: x["time"], reverse=True)
-
-
-with open("README.md", "w", encoding="utf-8") as readme:
-
-    readme.write("# Repository Index\n\n")
-    readme.write("Sorted by latest upload/update\n\n")
-
-    readme.write("| File | Last Update |\n")
-    readme.write("|------|-------------|\n")
-
-    for f in files:
-
-        if f["time"]:
-            date = datetime.utcfromtimestamp(f["time"]).strftime("%Y-%m-%d")
-        else:
-            date = "Unknown"
-
-        readme.write(
-            f"| [{f['path']}]({f['path']}) | {date} |\n"
-        )
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto update README.md from repo index"
+            git push
+          fi

@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  generate-readme:
+  build-readme:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,18 +19,38 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
-
       - name: Generate README
-        run: python scripts/generate_readme.py
+        run: |
+          echo "# 📚 Knowledge Base" > README.md
+          echo "" >> README.md
+
+          dirs=$(git ls-files "*.md" | grep -v README.md | awk -F/ '{print $1}' | sort -u)
+
+          for dir in $dirs
+          do
+            echo "## 📁 $dir" >> README.md
+            echo "" >> README.md
+
+            git ls-files "$dir/*.md" 2>/dev/null | while read file
+            do
+              created=$(git log --diff-filter=A --follow --format=%aI -1 "$file" | cut -c1-10)
+              updated=$(git log -1 --format=%aI "$file" | cut -c1-10)
+              name=$(basename "$file")
+
+              echo "$updated|$created|$file|$name"
+            done | sort -r | while IFS="|" read updated created file name
+            do
+              echo "- **$name**  \`created: $created\` \`updated: $updated\`  " >> README.md
+              echo "  [$file]($file)" >> README.md
+            done
+
+            echo "" >> README.md
+          done
 
       - name: Commit README
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
           git add README.md
-          git commit -m "Auto update README" || echo "No changes"
+          git diff --cached --quiet || git commit -m "Auto update README"
           git push

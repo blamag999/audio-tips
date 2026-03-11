@@ -14,25 +14,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: 3.x
 
       - name: Generate README
-        run: python generate_readme.py
+        run: python scripts/generate_readme.py
 
       - name: Commit README
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
           git add README.md
-          git diff --staged --quiet || git commit -m "Auto update README"
-
-      - name: Push changes
-        run: git push
+          git commit -m "Auto update README" || echo "No changes"
+          git push

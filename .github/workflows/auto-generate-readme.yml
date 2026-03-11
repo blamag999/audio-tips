@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  build-readme:
+  generate-readme:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,30 +21,15 @@ jobs:
 
       - name: Generate README
         run: |
-          echo "# 📚 Knowledge Base" > README.md
+          echo "# 📚 Documents" > README.md
           echo "" >> README.md
 
-          dirs=$(git ls-files "*.md" | grep -v README.md | awk -F/ '{print $1}' | sort -u)
-
-          for dir in $dirs
-          do
-            echo "## 📁 $dir" >> README.md
-            echo "" >> README.md
-
-            git ls-files "$dir/*.md" 2>/dev/null | while read file
-            do
-              created=$(git log --diff-filter=A --follow --format=%aI -1 "$file" | cut -c1-10)
-              updated=$(git log -1 --format=%aI "$file" | cut -c1-10)
-              name=$(basename "$file")
-
-              echo "$updated|$created|$file|$name"
-            done | sort -r | while IFS="|" read updated created file name
-            do
-              echo "- **$name**  \`created: $created\` \`updated: $updated\`  " >> README.md
-              echo "  [$file]($file)" >> README.md
-            done
-
-            echo "" >> README.md
+          for file in $(git ls-files "*.md" | grep -v README.md); do
+            date=$(git log --diff-filter=A --follow --format=%aI -1 "$file" | cut -c1-10)
+            echo "$date|$file"
+          done | sort -r | while IFS="|" read date file; do
+            name=$(basename "$file")
+            echo "- $date [$name]($file)" >> README.md
           done
 
       - name: Commit README

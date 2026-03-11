@@ -1,43 +1,102 @@
-name: Auto Generate README
+#!/usr/bin/env python3
+import subprocess
+import os
+from datetime import datetime
+from pathlib import Path
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+# Các thư mục/file muốn bỏ qua
+IGNORE_DIRS = {
+    '.git', '__pycache__', 'node_modules', '.github', '.vscode',
+    'venv', 'env', '.idea', 'dist', 'build', '.pytest_cache'
+}
 
-permissions:
-  contents: write
+IGNORE_FILES = {
+    'README.md', '.gitignore', '.gitattributes', 'generate_readme.py',
+    'LICENSE', '.DS_Store'
+}
 
-jobs:
-  generate-readme:
-    runs-on: ubuntu-latest
+def get_first_commit_date(file_path: str) -> str:
+    """Lấy ngày commit đầu tiên (ngày file được thêm vào repo)"""
+    try:
+        # --diff-filter=A → chỉ lấy commit Add file
+        # --follow → theo dõi file dù đổi tên
+        result = subprocess.run(
+            [
+                "git", "log", "--follow", "--diff-filter=A",
+                "--date=short", "--format=%cd", "-n", "1", "--", file_path
+            ],
+            capture_output=True, text=True, check=True
+        )
+        date_str = result.stdout.strip()
+        if date_str:
+            return date_str
+        return "????-??-??"
+    except:
+        return "????-??-??"
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+def should_ignore(path: Path) -> bool:
+    for part in path.parts:
+        if part in IGNORE_DIRS:
+            return True
+    if path.name in IGNORE_FILES:
+        return True
+    return False
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
+def collect_files_with_dates():
+    files_info = []
 
-      - name: Run generate_readme.py
-        run: |
-          python generate_readme.py
+    for root, dirs, files in os.walk(".", topdown=True):
+        # Loại bỏ thư mục không muốn duyệt
+        dirs[:] = [d for d in dirs if d not in IGNORE_DIRS]
 
-      - name: Commit & push README.md
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+        for file in files:
+            filepath = Path(root) / file
+            rel_path = filepath.relative_to(".").as_posix()
 
-          git add README.md
+            if should_ignore(filepath):
+                continue
 
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Auto update README.md from repo index"
-            git push
-          fi
+            date = get_first_commit_date(rel_path)
+            files_info.append((date, rel_path))
+
+    # Sắp xếp theo ngày giảm dần (mới nhất lên đầu)
+    files_info.sort(key=lambda x: x[0], reverse=True)
+
+    return files_info
+
+def generate_readme_content(files):
+    lines = []
+    lines.append("# Project Files Index\n")
+    lines.append("Danh sách file được sắp xếp theo **ngày upload lần đầu** (mới nhất → cũ nhất)\n")
+    lines.append("Cập nhật tự động bởi GitHub Actions\n\n")
+
+    lines.append("| Ngày upload | Đường dẫn file |\n")
+    lines.append("|------------|----------------|\n")
+
+    for date, path in files:
+        # Tạo link clickable trong GitHub
+        link = f"[{path}]({path})"
+        lines.append(f"| {date} | {link} |\n")
+
+    lines.append("\n---\n")
+    lines.append(f"*Tự động cập nhật: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}*\n")
+
+    return "".join(lines)
+
+def main():
+    print("Đang thu thập danh sách file và ngày tạo...")
+    files = collect_files_with_dates()
+
+    if not files:
+        print("Không tìm thấy file nào hợp lệ.")
+        return
+
+    content = generate_readme_content(files)
+
+    with open("README.md", "w", encoding="utf-8") as f:
+        f.write(content)
+
+    print(f"Đã tạo README.md với {len(files)} file.")
+
+if __name__ == "__main__":
+    main()

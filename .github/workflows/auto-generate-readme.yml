@@ -1,41 +1,83 @@
-name: Auto Generate README
+import os
+import subprocess
+from datetime import datetime
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+IGNORE_DIRS = {".git", ".github", "__pycache__"}
+IGNORE_FILES = {"README.md"}
 
-permissions:
-  contents: write
+def last_commit_time(path):
+    try:
+        ts = subprocess.check_output(
+            ["git", "log", "-1", "--format=%ct", path],
+            stderr=subprocess.DEVNULL
+        ).decode().strip()
 
-jobs:
-  generate-readme:
-    runs-on: ubuntu-latest
+        return int(ts) if ts else 0
+    except:
+        return 0
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
+files = []
 
-      - name: Run generate_readme.py
-        run: python generate_readme.py
+for root, dirs, filenames in os.walk("."):
+    dirs[:] = [d for d in dirs if d not in IGNORE_DIRS]
 
-      - name: Commit & push README.md
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
+    for f in filenames:
 
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Auto update README.md from repo index"
-            git push
-          fi
+        if f in IGNORE_FILES:
+            continue
+
+        path = os.path.join(root, f)
+
+        if path.startswith("./"):
+            path = path[2:]
+
+        ts = last_commit_time(path)
+
+        files.append({
+            "path": path,
+            "folder": os.path.dirname(path) or "root",
+            "time": ts
+        })
+
+
+# sort newest first
+files.sort(key=lambda x: x["time"], reverse=True)
+
+
+# group by folder
+folders = {}
+
+for f in files:
+    folders.setdefault(f["folder"], []).append(f)
+
+
+with open("README.md", "w", encoding="utf-8") as r:
+
+    r.write("# Repository Index\n\n")
+    r.write("Auto-generated file list sorted by last update.\n\n")
+
+    total = len(files)
+    r.write(f"**Total files:** {total}\n\n")
+
+    for folder in sorted(folders):
+
+        r.write(f"## 📂 {folder}\n\n")
+
+        r.write("| File | Last Update |\n")
+        r.write("|------|-------------|\n")
+
+        for f in folders[folder]:
+
+            if f["time"]:
+                date = datetime.utcfromtimestamp(
+                    f["time"]
+                ).strftime("%Y-%m-%d")
+            else:
+                date = "Unknown"
+
+            r.write(
+                f"| [{os.path.basename(f['path'])}]({f['path']}) | {date} |\n"
+            )
+
+        r.write("\n")

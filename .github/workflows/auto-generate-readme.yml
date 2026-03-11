@@ -24,12 +24,22 @@ jobs:
           echo "# 📚 Documents" > README.md
           echo "" >> README.md
 
+          current_date=""
+
           for file in $(git ls-files "*.md" | grep -v README.md); do
             date=$(git log --diff-filter=A --follow --format=%aI -1 "$file" | cut -c1-10)
             echo "$date|$file"
           done | sort -r | while IFS="|" read date file; do
+
+            if [ "$date" != "$current_date" ]; then
+              echo "" >> README.md
+              echo "## $date" >> README.md
+              current_date=$date
+            fi
+
             name=$(basename "$file")
-            echo "- $date [$name]($file)" >> README.md
+            echo "- [$name]($file)" >> README.md
+
           done
 
       - name: Commit README

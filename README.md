@@ -1,19 +1,12 @@
 # 📚 Documents
 
-- [See](See)
-- [Photo](Photo)
-- [Mistakes](Mistakes)
-- [Make.md](Make.md)
-- [I](I)
-- [Beginners](Beginners)
-- [All](All)
-- [7](7)
 
 ## 2026-03-12
 - [The-ULTIMATE-GUIDE-to-STREET-PHOTOGRAPHY.md](The-ULTIMATE-GUIDE-to-STREET-PHOTOGRAPHY.md)
 - [The-ONLY-VIDEO-You-Need-to-MASTER-SONY-AUTOFOCUS.md](The-ONLY-VIDEO-You-Need-to-MASTER-SONY-AUTOFOCUS.md)
 - [How-to-Take-Super-Sharp-Photos-Step-By-Step-Guide.md](How-to-Take-Super-Sharp-Photos-Step-By-Step-Guide.md)
 - [7-Things-Making-You-a-BAD-Photographer.md](7-Things-Making-You-a-BAD-Photographer.md)
+- [7-Photo-Mistakes-I-See-All-Beginners-Make.md](7-Photo-Mistakes-I-See-All-Beginners-Make.md)
 
 ## 2026-03-11
 - [The-Best-Camera-Gear-for-90-of-People-2026-Edition.md](The-Best-Camera-Gear-for-90-of-People-2026-Edition.md)
